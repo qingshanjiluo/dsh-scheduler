@@ -1,0 +1,58 @@
+{
+  "name": "@qingshanjiluo/dsh-scheduler",
+  "version": "0.1.0",
+  "description": "DeepSeek runtime plugin: autonomous scheduled-task planner and runner with cron/interval schedules, persistent state, and a due-prompt queue.",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/**/*.js",
+    "lib/**/*.d.ts",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "deepseek-runtime",
+    "dsh-plugin",
+    "cordis",
+    "scheduler",
+    "cron",
+    "automation",
+    "task-runner"
+  ],
+  "author": "qingshanjiluo",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.19 || >=24"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
+    "@deepseek-ai/schemastery": "^3.18.1",
+    "@types/node": "^22.10.0",
+    "tsdown": "^0.11.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.4"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

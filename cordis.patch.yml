@@ -1,0 +1,18 @@
+# dsh-scheduler bundle layer: inserts the scheduled-task planner/runner into a
+# profile's layer stack. Install with:
+#   npx -y @deepseek-ai/dsh plugin --profile web add @qingshanjiluo/dsh-scheduler
+#
+# Safe defaults: shell and http tasks stay disabled, so nothing executes beyond
+# queueing prompts for the agent until the deployment opts in here.
+- insert:
+    - id: scheduler
+      name: '@qingshanjiluo/dsh-scheduler'
+      config:
+        stateDir: ''
+        autoStart: true
+        tickMs: 30000
+        defaultZone: UTC
+        historyLimit: 200
+        allowShell: false
+        allowHttp: false
+        maxLatenessMs: 3600000
