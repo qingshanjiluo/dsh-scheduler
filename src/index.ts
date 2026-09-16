@@ -734,9 +734,8 @@ export function apply(ctx: Context, config: Config, executors: Executors = {}): 
   }
 
   /** Execute one task now, then reschedule it. */
-  async function runTask(task: Task, nowMs: number, force: boolean): Promise<RunRecord> {
+  async function runTask(task: Task, nowMs: number): Promise<RunRecord> {
     const started = Date.now()
-    const detail: ExecResult = { outcome: 'queued', detail: task.payload }
     let outcome: RunRecord['outcome'] = 'queued'
     let note = task.payload
     try {
@@ -775,7 +774,6 @@ export function apply(ctx: Context, config: Config, executors: Executors = {}): 
     }
     if (outcome === 'queued') pending.push(run)
     record(run)
-    void force
     reschedule(task, nowMs)
     task.updatedAtMs = nowMs
     return run
@@ -801,7 +799,7 @@ export function apply(ctx: Context, config: Config, executors: Executors = {}): 
         reschedule(task, nowMs)
         continue
       }
-      await runTask(task, nowMs, false)
+      await runTask(task, nowMs)
       fired += 1
     }
     if (fired > 0) saveState(stateFile, state)
@@ -1122,7 +1120,7 @@ export function apply(ctx: Context, config: Config, executors: Executors = {}): 
           run: projectRun({ atMs: 0, taskId: args.id, title: '', kind: 'prompt', outcome: 'skipped', detail: 'unknown task', durationMs: 0 }),
         }
       }
-      const run = await runTask(task, Date.now(), true)
+      const run = await runTask(task, Date.now())
       saveState(stateFile, state)
       return { valid: true, error: '', run: projectRun(run) }
     },
